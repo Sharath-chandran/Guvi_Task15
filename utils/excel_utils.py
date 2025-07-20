@@ -17,6 +17,8 @@ class ExcelUtil:
         data = [] # Initializes an empty list called data to store the extracted rows.
         # Loops through each row in the sheet starting from the second row (min_row=2) to skip the header.
         for row in self.sheet.iter_rows(min_row=2, values_only=False): # iter_rows returns each row as a tuple of cell objects.
+            # It collects values from the first three columns (assumed to be Test ID, Username, Password).
+            # Each row's data is stored as a tuple in the data list. Finally, it returns a list of tuples representing all the data rows.
             test_id = row[0].value # Extracts the value from the first cell in the row (column A)
             username = row[1].value # Extracts the value from the second cell in the row (column B)
             password = row[2].value # Extracts the value from the third cell in the row (column C)
@@ -26,6 +28,7 @@ class ExcelUtil:
 
     def write_result(self, row, result, tester_name="Sharath"):
         now = datetime.now() # Gets the current date and time
+        # write_result updates the Excel sheet, Date in column 4, Time in column 5, Tester Name in column 6, Result in column 7
         self.sheet.cell(row=row, column=4).value = now.date().isoformat() #  formats the date as a string like "yyyy-mm-dd".
         self.sheet.cell(row=row, column=5).value = now.time().strftime("%H:%M:%S") # formats the time as "HH:MM:SS"
         self.sheet.cell(row=row, column=6).value = tester_name
